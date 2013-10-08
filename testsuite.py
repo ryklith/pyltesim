@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-''' Project test suite. Numpy and Python 2.7 required. Not functional at this point.
+''' Project test suite. Numpy and Python 2.7 required.
 
 File: testsuite.py
 '''
@@ -10,7 +10,7 @@ __credits__ = "Hauke Holtkamp"
 __license__ = "unknown"
 __version__ = "unknown"
 __maintainer__ = "Hauke Holtkamp"
-__email__ = "h.h.h.h.holtkamp@gmail.com" 
+__email__ = "h.holtkamp@gmail.com" 
 __status__ = "Development" 
 
 import unittest
