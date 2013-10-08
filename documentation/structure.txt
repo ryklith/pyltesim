@@ -1,0 +1,76 @@
+This is a text file detailing the structure of the network simulator.
+
+Author: Hauke Holtkamp
+Email: h.holtkamp@gmail.com
+Year: 2013
+
+== General ==
+The 'simulator' generally consists of scripts that do all the action (load files, manage repetitions, logging, world creation and execution, results storage). For example, see scripts/RAPSmulticell.py.
+
+Unit tests are located inside the module folders. testsuite.py collects all tests. Tests have been reasonably well maintained.
+
+= Folders =
+== configure ==
+Configuration files
+== documentation ==
+This file
+== fsf ==
+Frequency selective fading generation
+== iwf ==
+Inverse Water-filling (or Margin Adaptation)
+== optim ==
+All calls to the ipopt library
+== out ==
+Default output folder for simulation data, logging, etc.
+== plotting ==
+Anything that calls matplotlib
+== quantmap ==
+Quantization for raps. Should probably better be in raps
+== raps ==
+Resource Allocation using Power Control and Sleep as well as the its benchmarks
+== rcg ==
+Rate-craving greedy. Move to raps?
+== results ==
+Results handlers, data collectors
+== scripts ==
+Scripts to be called from the shell
+== utils ==
+Static functions (e.g. dB conversion, etc.)
+== world ==
+All world elements. Tried to keep world generation apart from other simulation parts.
+
+= Getting started =
+1. Check configuration in config/settingsRAPSmulticell.cfg
+2. Call script, e.g. 'python scripts/RAPSmulticell.py'
+3. Follow std out
+
+
+
+
+===================================================================
+Important simulator objects
+===================================================================
+
+== World ==
+The world is the master container. It contains physical or spatial objects (e.g. base
+stations, mobiles, hexagons, grids). It performs some actions like distributing
+these. The world needs to consist of at least one hexagon (tier 0). 
+
+World receives configuration object, one for the physical layer and one for world parameters.
+
+== Base stations ==
+When a base station has 1 sector, it is in the center of a hexagon. When it
+serves three sectors (default), then it is on the edge of three hexagons. The
+first BS is placed on the north vertex of the central hexagon. Note the
+important difference between a hexagon and a BS. The map is created in the
+following way. 1. Place hexagons. 2. Place BS to cover the hexagons.
+
+A BS is a site. It has a position, a power consumption and a set of cells that are responsible for the actual transmission.
+
+== Cell ==
+A cell is mainly a directional antenna. It has transmission power and mobiles are connected to it. 
+
+== Mobile ==
+Mobiles have a position and all fading information. Since we simulate the downlink, the fading information at the mobile determines rates, scheduling, etc.
+
+

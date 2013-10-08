@@ -1,0 +1,1 @@
+This folder contains a range of data collection scripts. Since parallely executed simulations generate a large number of results files, those need to be collected, processed and arranged for plotting. These scripts take care of that. If you need help figuring it out, contact me at h.holtkamp@gmail.com

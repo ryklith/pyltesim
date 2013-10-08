@@ -1,0 +1,1 @@
+This folder contains scripts that run simulations with certain configuration files and store output in a certain way. You usually put together your desired simulation in one of these files and then execute that in parallel until you have enough data.

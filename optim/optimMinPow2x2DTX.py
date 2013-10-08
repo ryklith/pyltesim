@@ -1,0 +1,113 @@
+#!/usr/bin/env python
+
+''' Optimization objective and constraints for 2x2 MIMO minimal power allocation with DTX. See my papers for details.
+
+File: optimMinPow2x2DTX.py
+'''
+
+__author__ = "Hauke Holtkamp"
+__credits__ = "Hauke Holtkamp"
+__license__ = "unknown"
+__version__ = "unknown"
+__maintainer__ = "Hauke Holtkamp"
+__email__ = "h.holtkamp@gmail.com" 
+__status__ = "Development" 
+
+import scipy.linalg
+from numpy import *
+
+def eval_f(mus, noiseIfPower, SINR, rate, linkBandwidth, p0, m, pS ):
+    """Objective function. Min power equal power 2x2 MIMO. 
+    Variable is the resource share in TDMA. Last entry in mu[:] is sleep time share. Returns scalar."""
+    result = 0
+    for i in range(mus.size-1):
+        Ptxi = ptxOfMu(mus[i], rate, linkBandwidth, noiseIfPower[i], SINR[i,:,:])
+        Ppm = (p0 + m*Ptxi) * mus[i]
+        result = result + Ppm
+    result = result + mus[-1] * pS
+    return result
+
+def eval_grad_f(mus, noiseIfPower, SINR, rate, linkBandwidth, p0, m, pS):
+    """Gradient of the objective function. Returns array of scalars, each one the partial derivative. Last entry in mu[:] is sleep time share. """
+    result = 0
+    mus = array(mus) # allow iteration
+    result = zeros((mus.size), dtype=float_)
+    for i in range(mus.size-1): # the last derivative is different
+        a,b,M = dissectSINR(SINR[i,:,:])
+        capacity = rate / (linkBandwidth * mus[i])
+        result[i] = p0 + m*M*noiseIfPower[i]*( ( ( a**2 / b + 2*2**capacity - 1/mus[i] * ( rate/linkBandwidth * log(2) * 2**capacity) - 2 ) /  sqrt( a**2 + 2 * b * (2**capacity - 1) ) ) - a/b )
+    result[-1] = pS
+    return result
+
+def eval_g(mus, noiseIfPower, SINR, rate, linkBandwidth):
+    """Constraint functions. Returns an array."""
+
+    mus = array(mus)
+    result = zeros((mus.size), dtype=float_)
+    result[0] = sum(mus) # first constraint is the unit sum
+
+    # Other constraints: Maximum transmission power limit
+    for i in range(mus.size-1):
+        result[i+1] = ptxOfMu(mus[i], rate, linkBandwidth, noiseIfPower[i], SINR[i,:,:])
+
+    #print result
+    return result
+
+def eval_jac_g(mus, noiseIfPower, SINR, rate, linkBandwidth, flag):
+    """Gradient of constraint function/Jacobian. min power equal power 2x2 MIMO.
+    mus is the resource share in TDMA. Output is a numpy array with the nnzj rows."""
+    ncon = mus.size
+    if flag: # The 'structure of the Jacobian' is the map of which return value refers to which constraint function. There are ncon*ncon constraints overall. There are ncon functions in eval_g, each of which has ncon partial derivatives. 
+        lineindex = array(range(ncon)).repeat(ncon)
+        rowindex  = tile(array(range(ncon)),ncon)
+        return (lineindex,rowindex) # returns something like [0,0,0,1,1,1,2,2,2], [0,1,2,0,1,2,0,1,2]...
+
+    else:
+        index = 0
+        mus = array(mus) # allow iteration
+        result = zeros((ncon*ncon), dtype=float_)
+        # The derivatives of the unit sum are just 1
+        for i in range(ncon):
+            result[index] = 1
+            index = index + 1
+
+        # The derivatives of each power constraint:
+        for i in range(ncon-1): # the number of power constraints
+            for j in range(ncon): # the number of partial derivatives per power constraint
+                if i == j: # there is a partial derivative
+                    a,b,M = dissectSINR(SINR[i,:,:])
+                    capacity = rate / (linkBandwidth * mus[i])
+                    result[index] = M*noiseIfPower[i]* ( - (rate/linkBandwidth)* log(2) * 2**capacity) / (mus[i]**2 * sqrt( a**2 + 2*b*(2**capacity - 1)))
+                else: # there is no partial derivative
+                    result[index] = 0 # partial derivative is zero
+
+                index = index + 1
+
+        return result
+
+def ergMIMOsinrCDITCSIR2x2(capacity, SINR, noiseIfPower):
+    """Ergodic MIMO SNR as a function of achieved capacity and channel."""
+    a,b,M = dissectSINR(SINR)
+    if capacity > 0.5e3:
+        value = inf # avoid overflow warning
+    else:
+        value = noiseIfPower * (M / b) * ( -a + sqrt( a**2 + 2 * b * (2**capacity - 1) ) )
+    return value
+
+def dissectSINR(SINR):
+    """Take apart SINR into some values that we need often. If SINR is trivial, one eigenvalue is zero."""
+    M = SINR.shape[0]
+    #eigvals, eigvects = scipy.linalg.eig(scipy.dot(H,H.conj().T)) # THIS LINE DETERMINES WHETHER WE ARE WORKING IN CHANNEL STATE OR SINR
+    eigvals, eigvects = scipy.linalg.eig(SINR) # SINR is a bad label. It is actually the effective channel 
+    e1 = eigvals[0].real
+    e2 = eigvals[1].real
+    a = e1 + e2
+    b = 2*e1 * e2
+
+    return (a,b,M)
+
+def ptxOfMu(mu, rate, linkBandwidth, noiseIfPower, SINR):
+    """Returns transmission power needed for a certain channel capacity as a function of the MIMO channel and noise power."""
+    capacity = rate / (linkBandwidth * mu)
+    return ergMIMOsinrCDITCSIR2x2(capacity, SINR, noiseIfPower)
+

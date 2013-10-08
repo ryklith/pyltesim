@@ -1,0 +1,148 @@
+for i in $(ls /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/); do convert -delay 200 -loop 0 /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/$i/powerprofile*.png /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/$i/animation.gif; done
+
+for i in $(ls /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/); do python plotting/sinr_analysis_plot_ICC2013.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/$i/mobileSINRs.csv ; done
+
+for i in $(ls /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/); do python plotting/sinr_analysis_plot_ICC2013.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/$i/mobile_effSINRs.csv ; done
+
+
+#### rename ####
+python results/rename_folders.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/
+
+#### collectors ####
+python results/collect_delivered_per_mobile_distribution_over_iterations.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_delivered_rate_over_iterations_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_delivered_rate_over_sumrate_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_missrates_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_power_cons_over_iters_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_power_cons_over_sumrate_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_percentage_over_satifsfied_users_over_target_sumrate.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_percentage_over_satifsfied_users_over_delta_sumrate.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ -0.2
+
+##### sum rate plots ###
+python plotting/delivered_rate_over_target_sum_rate_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_sumrates.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/power_consumption_over_target_sum_rate_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/power_consumption_over_sumrates.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_percentage_satisfied_over_target_rate_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/percentage_satisfied_over_target_rate.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_average_user_rate_over_target_user_rate.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python results/collect_variance_of_user_rate_over_target_user_rate.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/data/ /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user
+
+python plotting/plot_retransmission_probability_over_target_rate_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/percentage_satisfied_over_target_rate.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+### delivered plots ####
+python plotting/plot_delivered_individual_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_rate_1000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_delivered_individual_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_rate_2000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_delivered_individual_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_rate_2300000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_delivered_individual_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_rate_2600000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_delivered_individual_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_rate_3000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_average_mobile_delivered_rate_over_target_rate.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/average_user_rates_over_target_rate.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_variance_of_user_rate_over_target_user_rate.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/standard_deviation_of_user_rate_over_target_user_rate.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+### missrate plots ###
+python plotting/plot_miss_rate_analysis_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/missrate_1000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_miss_rate_analysis_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/missrate_2000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_miss_rate_analysis_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/missrate_2300000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_miss_rate_analysis_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/missrate_2600000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_miss_rate_analysis_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/missrate_3000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+
+
+### consumption plots ####
+python plotting/plot_power_cons_per_iter_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/power_consumption_1000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_power_cons_per_iter_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/power_consumption_2000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+
+python plotting/plot_power_cons_per_iter_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/power_consumption_2300000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_power_cons_per_iter_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/power_consumption_2600000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+python plotting/plot_power_cons_per_iter_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/power_consumption_3000000.csv /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/
+
+
+
+#### Plot delivered per mobile ##########
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_dtxs_1000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_dtxs_2000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_dtxs_2300000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_dtxs_2600000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_dtxs_3000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_none_1000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_none_2000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_none_2300000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_none_2600000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_none_3000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_sinr_1000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_sinr_2000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_sinr_2300000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_sinr_2600000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_sinr_3000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_rand_1000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_rand_2000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_rand_2300000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_rand_2600000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/delivered_per_mobile_distr_rand_3000000.csv 
+
+python plotting/plot_mobile_delivered_rate_cdf_comparative.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ 1000000
+
+python plotting/plot_mobile_delivered_rate_cdf_comparative.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ 2000000
+
+python plotting/plot_mobile_delivered_rate_cdf_comparative.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ 2300000
+
+python plotting/plot_mobile_delivered_rate_cdf_comparative.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ 2600000
+
+python plotting/plot_mobile_delivered_rate_cdf_comparative.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ 3000000
+
+python plotting/plot_percentage_satisfieder_over_iters_seqDTX.py /media/defs2/unixhome/deploy1/out/26Mar_achieved_rate_per_user/ 1000000
+
+
+
+### quicker condor call ###
+condor_submit condor/condorconfig_01.cmd
+condor_submit condor/condorconfig_02.cmd
+condor_submit condor/condorconfig_03.cmd
+condor_submit condor/condorconfig_04.cmd
+condor_submit condor/condorconfig_05.cmd
+condor_submit condor/condorconfig_06.cmd
+condor_submit condor/condorconfig_07.cmd
+condor_submit condor/condorconfig_08.cmd
+condor_submit condor/condorconfig_09.cmd
+for i in {10..20}; do condor_submit condor/condorconfig_$i.cmd; done
