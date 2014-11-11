@@ -34,4 +34,4 @@ Requirements
 
 Misc
 =======
-This program was written specifically for my academic needs and may need some adjustments to use it elsewhere. But I would be happy if anyone can reuse my work. Feel free to contact me at h.holtkamp@gmail.com.
+Feel free to contact me at h.holtkamp@gmail.com.
